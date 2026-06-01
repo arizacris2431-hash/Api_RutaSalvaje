@@ -32,10 +32,11 @@ public class JwtFilter extends OncePerRequestFilter {
         String path = request.getRequestURI();
         String method = request.getMethod();
 
-        // Si es una ruta pública, saltamos el filtro JWT
         if ((HttpMethod.GET.matches(method) && (path.startsWith("/planes") || path.startsWith("/resenas")))
                 || (HttpMethod.POST.matches(method) && (path.equals("/auth/login") || path.equals("/auth/register")))
-                || path.startsWith("/swagger") || path.startsWith("/v3/api-docs")) {
+                || path.contains("/swagger")
+                || path.contains("/v3/api-docs")) {
+
             filterChain.doFilter(request, response);
             return;
         }
